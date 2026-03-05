@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Sweetly — Солодощі з любов'ю{% endblock %}
+{% block content %}
+
+<section class="text-center py-5 mb-4" style="background:linear-gradient(135deg,#fff5f8 0%,#fdf9f5 100%);border-radius:24px;">
+    <h1 style="font-size:2.8rem;">Солодощі з <span style="color:#c9748a;">любов'ю</span></h1>
+    <p class="text-muted mt-2 mb-4">Торти, тістечка, печиво та цукерки ручної роботи</p>
+    <a href="{% url 'catalog:product_list' %}" class="btn btn-primary px-5 py-2">Переглянути каталог</a>
+</section>
+
+{% if categories %}
+<section class="mb-5">
+    <div class="row g-3">
+        {% for cat in categories %}
+        <div class="col-6 col-md-3">
+            <a href="{{ cat.get_absolute_url }}" class="text-decoration-none">
+                <div class="card text-center p-3">
+                    <div style="font-size:2.2rem;">
+                        {% if cat.slug == 'torty' %}🎂
+                        {% elif cat.slug == 'pechyvo' %}🍪
+                        {% elif cat.slug == 'tsukierky' %}🍬
+                        {% else %}🧁{% endif %}
+                    </div>
+                    <div class="mt-2" style="font-weight:600;color:#333;">{{ cat.name }}</div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+{% if popular %}
+<section class="mb-5">
+    <div class="d-flex justify-content-between align-items-end mb-3">
+        <div>
+            <div class="section-title">Популярні товари</div>
+            <div class="section-sub mb-0">Обрані нашими покупцями</div>
+        </div>
+        <a href="{% url 'catalog:product_list' %}" class="btn btn-outline-primary btn-sm">Всі товари</a>
+    </div>
+    <div class="row g-4">
+        {% for product in popular %}
+        <div class="col-6 col-md-3">{% include 'catalog/_product_card.html' %}</div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+{% if recently_viewed %}
+<section class="mb-5">
+    <div class="section-title mb-1">Нещодавно переглянуті</div>
+    <div class="section-sub">Повернутись до вибраного</div>
+    <div class="row g-4">
+        {% for product in recently_viewed %}
+        <div class="col-6 col-md-3">{% include 'catalog/_product_card.html' %}</div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+{% endblock %}
+{% block extra_js %}{% include 'catalog/_add_to_cart_js.html' %}{% endblock %}

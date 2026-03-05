@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}{{ category.name }} — Sweetly{% endblock %}
+{% block content %}
+
+<nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Головна</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'catalog:product_list' %}">Каталог</a></li>
+        <li class="breadcrumb-item active">{{ category.name }}</li>
+    </ol>
+</nav>
+
+<div class="section-title mb-4">{{ category.name }}</div>
+<div class="row g-4">
+    {% for product in page_obj %}
+    <div class="col-6 col-md-3">{% include 'catalog/_product_card.html' %}</div>
+    {% empty %}
+    <div class="text-center py-5 col-12">
+        <div style="font-size:3rem;">🍰</div>
+        <p class="text-muted mt-2">В цій категорії поки немає товарів.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+{% block extra_js %}{% include 'catalog/_add_to_cart_js.html' %}{% endblock %}

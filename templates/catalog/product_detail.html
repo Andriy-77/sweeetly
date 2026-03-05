@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %}{{ product.name }} — Sweetly{% endblock %}
+{% block content %}
+
+<nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Головна</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'catalog:product_list' %}">Каталог</a></li>
+        <li class="breadcrumb-item active">{{ product.name }}</li>
+    </ol>
+</nav>
+
+<div class="row g-5">
+    <div class="col-md-6">
+        {% if product.image %}
+            <img src="{{ product.image.url }}" class="img-fluid" style="border-radius:20px;width:100%;object-fit:cover;max-height:420px;" alt="{{ product.name }}">
+        {% else %}
+            <div style="height:420px;background:linear-gradient(135deg,#fdf2f6,#fce7f3);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:6rem;">🍰</div>
+        {% endif %}
+    </div>
+    <div class="col-md-6">
+        <span class="badge-category">{{ product.category.name }}</span>
+        <h1 style="font-size:2rem;margin-top:12px;">{{ product.name }}</h1>
+        <p class="text-muted">{{ product.description }}</p>
+        <div class="price-tag" style="font-size:1.8rem;margin:20px 0;">{{ product.price }} грн</div>
+        {% if product.is_available %}
+            <div class="d-flex align-items-center gap-3">
+                <div class="d-flex align-items-center border rounded-3" style="border-color:#e8e4e0!important;">
+                    <button class="btn btn-sm px-3" id="qty-minus">−</button>
+                    <input type="number" id="qty-input" value="1" min="1" class="form-control border-0 text-center" style="width:56px;">
+                    <button class="btn btn-sm px-3" id="qty-plus">+</button>
+                </div>
+                <button class="btn btn-primary px-4 py-2" id="add-btn" data-id="{{ product.id }}">
+                    <i class="bi bi-bag-plus me-2"></i>До кошика
+                </button>
+            </div>
+        {% else %}
+            <div class="alert alert-warning d-inline-block">Немає в наявності</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+document.getElementById('qty-minus')?.addEventListener('click', () => {
+    const inp = document.getElementById('qty-input');
+    if (parseInt(inp.value) > 1) inp.value = parseInt(inp.value) - 1;
+});
+document.getElementById('qty-plus')?.addEventListener('click', () => {
+    const inp = document.getElementById('qty-input');
+    inp.value = parseInt(inp.value) + 1;
+});
+document.getElementById('add-btn')?.addEventListener('click', function() {
+    const qty = document.getElementById('qty-input').value;
+    fetch(`/cart/add/${this.dataset.id}/`, {
+        method: 'POST',
+        headers: {'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/x-www-form-urlencoded'},
+        body: `quantity=${qty}`
+    }).then(r => r.json()).then(data => {
+        let badge = document.getElementById('cart-count');
+        if (!badge) {
+            badge = document.createElement('span');
+            badge.id = 'cart-count';
+            badge.className = 'cart-badge';
+            document.querySelector('.cart-icon-wrap')?.appendChild(badge);
+        }
+        badge.textContent = data.count;
+        this.innerHTML = '<i class="bi bi-check2 me-2"></i>Додано!';
+        setTimeout(() => this.innerHTML = '<i class="bi bi-bag-plus me-2"></i>До кошика', 1500);
+    });
+});
+</script>
+{% endblock %}

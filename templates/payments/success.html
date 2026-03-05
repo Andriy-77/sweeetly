@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Оплата успішна — Sweetly{% endblock %}
+{% block content %}
+<div class="text-center py-5">
+    <div style="font-size:4rem;">🎉</div>
+    <h2 class="section-title mt-3">Дякуємо за замовлення!</h2>
+    <p class="text-muted">Замовлення <strong>#{{ order.id }}</strong> успішно оплачено.</p>
+    <p class="text-muted">Ми зв'яжемося з вами на <strong>{{ order.email }}</strong></p>
+    <div class="mt-4">
+        <a href="{% url 'orders:history' %}" class="btn btn-primary me-2">Мої замовлення</a>
+        <a href="{% url 'catalog:product_list' %}" class="btn btn-outline-primary">Продовжити покупки</a>
+    </div>
+</div>
+{% endblock %}

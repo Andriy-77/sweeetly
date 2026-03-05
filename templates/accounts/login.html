@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Вхід — Sweetly{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card p-4 mt-3">
+            <div class="text-center mb-4">
+                <div style="font-size:2rem;">🍰</div>
+                <h2 class="section-title mt-2">Вхід</h2>
+                <p class="text-muted" style="font-size:0.875rem;">Немає акаунту? <a href="{% url 'accounts:register' %}" style="color:#c9748a;">Реєстрація</a></p>
+            </div>
+            <form method="post" novalidate>
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label" style="font-size:0.875rem;">Email</label>
+                    {{ form.username }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" style="font-size:0.875rem;">Пароль</label>
+                    {{ form.password }}
+                </div>
+                <button type="submit" class="btn btn-primary w-100 py-2">Увійти</button>
+            </form>
+            <div class="text-center mt-3">
+    <div class="text-muted mb-2" style="font-size:0.85rem;">або</div>
+    <a href="/accounts/google/login/" class="btn w-100 d-flex align-items-center justify-content-center gap-2" style="border:1px solid #dadce0; color:#3c4043; font-weight:500; background:#fff; border-radius:8px; padding:10px;">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20">
+        Увійти через Google
+    </a>
+</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

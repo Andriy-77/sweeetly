@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Вхід через Google — Sweetly{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card p-4 mt-3 text-center">
+            <div style="font-size:3rem;">🍰</div>
+            <h2 class="section-title mt-2">Вхід через Google</h2>
+            <p class="text-muted mt-2">
+                Ви збираєтесь увійти як:<br>
+                <strong>{{ sociallogin.account.extra_data.email }}</strong>
+            </p>
+            <form method="post" action="{% url 'socialaccount_signup' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary w-100 py-2 mt-3">
+                    ✅ Продовжити
+                </button>
+            </form>
+            <a href="{% url 'accounts:login' %}" class="btn btn-link mt-2 text-muted">Скасувати</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

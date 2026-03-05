@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}Каталог — Sweetly{% endblock %}
+{% block content %}
+
+<nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Головна</a></li>
+        <li class="breadcrumb-item active">Каталог</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-md-3 mb-4">
+        <div class="card p-3">
+            <div class="mb-3" style="font-weight:600;">Категорії</div>
+            <a href="{% url 'catalog:product_list' %}" class="d-block py-1 text-decoration-none" style="color:{% if not current_category %}#c9748a{% else %}#555{% endif %};font-weight:{% if not current_category %}600{% else %}400{% endif %};">Всі товари</a>
+            {% for cat in categories %}
+                <a href="?category={{ cat.slug }}" class="d-block py-1 text-decoration-none" style="color:{% if current_category == cat.slug %}#c9748a{% else %}#555{% endif %};font-weight:{% if current_category == cat.slug %}600{% else %}400{% endif %};">{{ cat.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="section-title mb-0">
+                {% if query %}Результати: "{{ query }}"{% elif current_category %}Категорія{% else %}Всі солодощі{% endif %}
+            </div>
+            <form method="get" class="d-flex gap-2">
+                <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Пошук..." style="width:180px;">
+                {% if current_category %}<input type="hidden" name="category" value="{{ current_category }}">{% endif %}
+                <button type="submit" class="btn btn-primary">Знайти</button>
+            </form>
+        </div>
+
+        {% if page_obj.object_list %}
+            <div class="row g-4">
+                {% for product in page_obj %}
+                <div class="col-6 col-md-4">{% include 'catalog/_product_card.html' %}</div>
+                {% endfor %}
+            </div>
+            {% if page_obj.has_other_pages %}
+            <nav class="mt-4">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}">←</a></li>
+                    {% endif %}
+                    {% for num in page_obj.paginator.page_range %}
+                        <li class="page-item {% if num == page_obj.number %}active{% endif %}">
+                            <a class="page-link" href="?page={{ num }}{% if query %}&q={{ query }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}" {% if num == page_obj.number %}style="background:#c9748a;border-color:#c9748a;"{% endif %}>{{ num }}</a>
+                        </li>
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}">→</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        {% else %}
+            <div class="text-center py-5">
+                <div style="font-size:3rem;">🍰</div>
+                <p class="text-muted mt-2">Нічого не знайдено.</p>
+                <a href="{% url 'catalog:product_list' %}" class="btn btn-outline-primary mt-2">Всі товари</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}{% include 'catalog/_add_to_cart_js.html' %}{% endblock %}

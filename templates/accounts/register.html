@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Реєстрація — Sweetly{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card p-4 mt-3">
+            <div class="text-center mb-4">
+                <div style="font-size:2rem;">🍰</div>
+                <h2 class="section-title mt-2">Реєстрація</h2>
+                <p class="text-muted" style="font-size:0.875rem;">Вже є акаунт? <a href="{% url 'accounts:login' %}" style="color:#c9748a;">Увійти</a></p>
+            </div>
+            <form method="post" novalidate>
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="mb-3">
+                    <label class="form-label" style="font-size:0.875rem;font-weight:500;">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}<div class="text-danger mt-1" style="font-size:0.8rem;">{{ field.errors|join:', ' }}</div>{% endif %}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary w-100 py-2 mt-2">Зареєструватись</button>
+            </form>
+            <div class="text-center mt-3">
+    <div class="text-muted mb-2" style="font-size:0.85rem;">або</div>
+    <a href="/accounts/google/login/" class="btn w-100 d-flex align-items-center justify-content-center gap-2" style="border:1px solid #dadce0; color:#3c4043; font-weight:500; background:#fff; border-radius:8px; padding:10px;">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20">
+        Увійти через Google
+    </a>
+</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

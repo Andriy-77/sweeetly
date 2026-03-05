@@ -1,0 +1,25 @@
+<script>
+document.querySelectorAll('.add-to-cart').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const id = this.dataset.id;
+        fetch(`/cart/add/${id}/`, {
+            method: 'POST',
+            headers: {'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/x-www-form-urlencoded'},
+            body: 'quantity=1'
+        })
+        .then(r => r.json())
+        .then(data => {
+            let badge = document.getElementById('cart-count');
+            if (!badge) {
+                badge = document.createElement('span');
+                badge.id = 'cart-count';
+                badge.className = 'cart-badge';
+                document.querySelector('.cart-icon-wrap')?.appendChild(badge);
+            }
+            badge.textContent = data.count;
+            this.innerHTML = '<i class="bi bi-check2"></i>';
+            setTimeout(() => this.innerHTML = '<i class="bi bi-bag-plus"></i>', 1200);
+        });
+    });
+});
+</script>

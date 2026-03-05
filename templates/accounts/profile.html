@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Профіль — Sweetly{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card p-4 text-center">
+            {% if user.avatar %}
+                <img src="{{ user.avatar.url }}" class="rounded-circle mb-3 mx-auto d-block" style="width:80px;height:80px;object-fit:cover;">
+            {% else %}
+                <div class="rounded-circle bg-light d-flex align-items-center justify-content-center mb-3 mx-auto" style="width:80px;height:80px;font-size:2rem;">👤</div>
+            {% endif %}
+            <div style="font-weight:600;">{{ user.get_full_name }}</div>
+            <div class="text-muted" style="font-size:0.85rem;">{{ user.email }}</div>
+            <a href="{% url 'orders:history' %}" class="btn btn-outline-primary btn-sm mt-3">Мої замовлення</a>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card p-4">
+            <div class="section-title mb-4" style="font-size:1.3rem;">Редагувати профіль</div>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="mb-3">
+                    <label class="form-label" style="font-size:0.875rem;">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">Зберегти</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

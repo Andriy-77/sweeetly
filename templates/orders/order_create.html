@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}Оформлення замовлення — Sweetly{% endblock %}
+{% block content %}
+<div class="section-title mb-4">Оформлення замовлення</div>
+<div class="row g-4">
+    <div class="col-md-7">
+        <div class="card p-4">
+            <h5 class="mb-3" style="font-weight:600;">Дані доставки</h5>
+            <form method="post">
+                {% csrf_token %}
+                <div class="row g-3">
+                    <div class="col-6">
+                        <label class="form-label">{{ form.first_name.label }}</label>{{ form.first_name }}
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label">{{ form.last_name.label }}</label>{{ form.last_name }}
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label">{{ form.email.label }}</label>{{ form.email }}
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label">{{ form.phone.label }}</label>{{ form.phone }}
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">{{ form.address.label }}</label>{{ form.address }}
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 py-2 mt-4">Перейти до оплати</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="card p-4">
+            <h5 class="mb-3" style="font-weight:600;">Ваше замовлення</h5>
+            {% for item in cart %}
+            <div class="d-flex justify-content-between mb-2" style="font-size:0.875rem;">
+                <span>{{ item.product.name }} × {{ item.quantity }}</span>
+                <span>{{ item.total }} грн</span>
+            </div>
+            {% endfor %}
+            <hr>
+            <div class="d-flex justify-content-between" style="font-weight:600;">
+                <span>Разом</span>
+                <span class="price-tag">{{ cart.get_total }} грн</span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
