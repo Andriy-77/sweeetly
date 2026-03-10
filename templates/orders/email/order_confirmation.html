@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body { font-family: sans-serif; background: #fdf6f0; padding: 20px; }
+  .container { max-width: 600px; margin: 0 auto; background: #fff; border-radius: 16px; padding: 40px; }
+  h1 { color: #c9748a; text-align: center; }
+  table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+  th { background: #c9748a; color: white; padding: 10px; text-align: left; }
+  td { padding: 10px; border-bottom: 1px solid #f0e0e0; }
+  .total { font-weight: bold; color: #c9748a; text-align: right; font-size: 18px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🍰 Sweetly</h1>
+  <p>Дякуємо, <strong>{{ order.first_name }}</strong>! Замовлення <strong>#{{ order.id }}</strong> прийнято.</p>
+  <table>
+    <thead><tr><th>Товар</th><th>К-сть</th><th>Ціна</th></tr></thead>
+    <tbody>
+    {% for item in order.items.all %}
+    <tr><td>{{ item.name }}</td><td>{{ item.quantity }}</td><td>{{ item.price }} грн</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <p class="total">Разом: {{ order.total }} грн</p>
+  <p>📦 {{ order.address }}</p>
+  <p>З повагою, команда Sweetly 🍰</p>
+</div>
+</body>
+</html>

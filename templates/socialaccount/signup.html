@@ -12,6 +12,7 @@
             </p>
             <form method="post" action="{% url 'socialaccount_signup' %}">
                 {% csrf_token %}
+                {{ form.as_p }}
                 <button type="submit" class="btn btn-primary w-100 py-2 mt-3">
                     ✅ Продовжити
                 </button>

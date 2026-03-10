@@ -31,13 +31,17 @@ class Cart:
 
     def __iter__(self):
         ids = self.cart.keys()
-        products = Product.objects.filter(id__in=ids)
-        cart = self.cart.copy()
-        for product in products:
-            cart[str(product.id)]['product'] = product
-        for item in cart.values():
-            item['total'] = Decimal(item['price']) * item['quantity']
-            yield item
+        products = Product.objects.filter(id__in=ids).select_related('category')
+        products_map = {str(p.id): p for p in products}
+        for pid, item in self.cart.items():
+            product = products_map.get(pid)
+            if product:
+                yield {
+                    'product': product,
+                    'quantity': item['quantity'],
+                    'price': Decimal(item['price']),
+                    'total': Decimal(item['price']) * item['quantity'],
+                }
 
     def __len__(self):
         return sum(item['quantity'] for item in self.cart.values())

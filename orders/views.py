@@ -2,9 +2,11 @@ import logging
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+
 from cart.cart import Cart
 from .models import Order, OrderItem
 from .forms import OrderForm
+from .email import send_order_confirmation
 
 logger = logging.getLogger('orders')
 
@@ -38,6 +40,7 @@ def order_create(request):
                     )
                 request.session['order_id'] = order.id
                 logger.info(f'Замовлення #{order.id} створено')
+                send_order_confirmation(order)  # ← тут, всередині try
                 return redirect('payments:checkout', order_id=order.id)
             except Exception as e:
                 logger.error(f'Помилка створення замовлення: {e}')
