@@ -3,14 +3,18 @@ from django.template.loader import render_to_string
 from django.conf import settings
 import logging
 
-logger = logging.getLogger('orders')
+logger = logging.getLogger("orders")
 
 
 def send_order_confirmation(order):
     try:
-        subject = f'Sweetly — Замовлення #{order.id} підтверджено'
-        message = render_to_string('orders/email/order_confirmation.txt', {'order': order})
-        html_message = render_to_string('orders/email/order_confirmation.html', {'order': order})
+        subject = f"Sweetly — Замовлення #{order.id} підтверджено"
+        message = render_to_string(
+            "orders/email/order_confirmation.txt", {"order": order}
+        )
+        html_message = render_to_string(
+            "orders/email/order_confirmation.html", {"order": order}
+        )
         send_mail(
             subject=subject,
             message=message,
@@ -19,6 +23,6 @@ def send_order_confirmation(order):
             html_message=html_message,
             fail_silently=False,
         )
-        logger.info(f'Email відправлено для замовлення #{order.id}')
+        logger.info(f"Email відправлено для замовлення #{order.id}")
     except Exception as e:
-        logger.error(f'Помилка відправки email: {e}')
+        logger.error(f"Помилка відправки email: {e}")

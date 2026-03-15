@@ -5,15 +5,24 @@ from .models import User
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    list_display = ('email', 'first_name', 'last_name', 'is_staff', 'date_joined')
-    list_filter = ('is_staff', 'is_superuser', 'is_active')
-    search_fields = ('email', 'first_name', 'last_name')
-    ordering = ('-date_joined',)
+    list_display = ("email", "first_name", "last_name", "is_staff", "date_joined")
+    list_filter = ("is_staff", "is_superuser", "is_active")
+    search_fields = ("email", "first_name", "last_name")
+    ordering = ("-date_joined",)
     fieldsets = (
-        (None, {'fields': ('email', 'password')}),
-        ('Особисті дані', {'fields': ('first_name', 'last_name', 'phone', 'avatar')}),
-        ('Права', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        (None, {"fields": ("email", "password")}),
+        ("Особисті дані", {"fields": ("first_name", "last_name", "phone", "avatar")}),
+        (
+            "Права",
+            {
+                "fields": (
+                    "is_active",
+                    "is_staff",
+                    "is_superuser",
+                    "groups",
+                    "user_permissions",
+                )
+            },
+        ),
     )
-    add_fieldsets = (
-        (None, {'fields': ('email', 'password1', 'password2')}),
-    )
+    add_fieldsets = ((None, {"fields": ("email", "password1", "password2")}),)

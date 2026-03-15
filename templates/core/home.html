@@ -2,10 +2,58 @@
 {% block title %}Sweetly — Солодощі з любов'ю{% endblock %}
 {% block content %}
 
-<section class="text-center py-5 mb-4" style="background:linear-gradient(135deg,#fff5f8 0%,#fdf9f5 100%);border-radius:24px;">
-    <h1 style="font-size:2.8rem;">Солодощі з <span style="color:#c9748a;">любов'ю</span></h1>
-    <p class="text-muted mt-2 mb-4">Торти, тістечка, печиво та цукерки ручної роботи</p>
-    <a href="{% url 'catalog:product_list' %}" class="btn btn-primary px-5 py-2">Переглянути каталог</a>
+<section class="text-center py-5 mb-4" style="background:linear-gradient(135deg,#fff5f8 0%,#fdf9f5 100%);border-radius:24px;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;opacity:0.25;background:
+        radial-gradient(circle at 0% 0%, #ffd1e3 0, transparent 55%),
+        radial-gradient(circle at 100% 100%, #ffe5d1 0, transparent 55%);pointer-events:none;">
+    </div>
+    <div style="position:relative;z-index:1;">
+        <div class="info-strip mb-3">
+            <i class="bi bi-truck"></i>
+            <span>Доставка за 2 години по Києву при замовленні до 16:00</span>
+        </div>
+        <h1 style="font-size:2.8rem;">Солодощі з <span style="color:#c9748a;">любов'ю</span></h1>
+        <p class="text-muted mt-2 mb-4">Торти, тістечка, печиво та цукерки ручної роботи</p>
+        <a href="{% url 'catalog:product_list' %}" class="btn btn-primary px-5 py-2">Переглянути каталог</a>
+    </div>
+</section>
+
+<section class="mb-4">
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="card h-100 border-0" style="background: #fff7fb;">
+                <div class="card-body d-flex align-items-start gap-3">
+                    <span style="font-size:1.8rem;">🍓</span>
+                    <div>
+                        <div style="font-weight:600;">Натуральні інгредієнти</div>
+                        <p class="mb-0 text-muted" style="font-size:0.9rem;">Без маргарину та дешевих замінників, тільки якісні продукти.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 border-0" style="background: #fff4ec;">
+                <div class="card-body d-flex align-items-start gap-3">
+                    <span style="font-size:1.8rem;">⏱️</span>
+                    <div>
+                        <div style="font-weight:600;">Свіже щодня</div>
+                        <p class="mb-0 text-muted" style="font-size:0.9rem;">Випікаємо невеликими партіями, щоб десерти були завжди свіжими.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 border-0" style="background: #f6f3ff;">
+                <div class="card-body d-flex align-items-start gap-3">
+                    <span style="font-size:1.8rem;">🎁</span>
+                    <div>
+                        <div style="font-weight:600;">Ідеально для подарунку</div>
+                        <p class="mb-0 text-muted" style="font-size:0.9rem;">Охайне пакування, листівка та індивідуальні побажання.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 {% if categories %}
